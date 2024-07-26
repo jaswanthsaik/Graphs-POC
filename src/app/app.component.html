@@ -1,0 +1,48 @@
+<div class="graph">
+  <apx-chart
+  [series]="chartSeries"
+  [chart]="chartOptions"
+  [xaxis]="xaxis"
+  [title]="titleSubtitle">
+  </apx-chart>
+</div>
+&nbsp;
+<div class="graphdetails">
+  <div class="list-group-item">
+    <form>
+      <div class="row">
+        <div class="col-xs-6">
+          <label for="type">Chart Type</label>
+          <select id="type" class="form-control" [(ngModel)]="selectedtype" name="type">
+              <option *ngFor="let i of types">{{ i }}</option>
+          </select>        
+        </div>
+        <div class="col-xs-6">
+          <label for="title">Title</label>
+          <input id="title" name="title" class="form-control" [(ngModel)]="text">        
+        </div>
+      </div>
+      &nbsp;
+      <div class="row">
+        <div class="col-xs-6">
+          <label for="x-axis">X-axis</label>
+          <select id="x-axis" class="form-control" [(ngModel)]="SelectXaxis" name="x-axis">
+              <option *ngFor="let i of Xaxis">{{ i }}</option>
+          </select>        
+        </div>
+        <div class="col-xs-6">
+          <label for="y-axis">Y-axis</label>
+          <select id="y-axis" class="form-control" [(ngModel)]="SelectYaxis" name="y-axis">
+            <option *ngFor="let i of Yaxis">{{ i }}</option>
+          </select>            
+        </div>
+      </div>
+      &nbsp;
+      <div class="row">
+        <div class="col-xs-12">
+          <button (click)="onSave()">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
