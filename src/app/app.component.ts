@@ -1,4 +1,5 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -16,6 +17,7 @@ import {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  @ViewChild('f') Graphform:NgForm;
   types = [
     { type: 'line', icon: 'assets/line.png' },
     { type: 'bar', icon: 'assets/bar.png' },
@@ -66,6 +68,7 @@ export class AppComponent {
   selectChartType(type: string) {
     this.selectedtype = type;
     this.mode = false;
+    this.Graphform.reset()
   }
  
   // customization of the graph from the inputs
@@ -137,6 +140,7 @@ export class AppComponent {
     this.updateChart();
     this.selectedtype = 'new'
     this.mode = true
+    this.Graphform.reset()
   }
  
   // function to update the chart options
@@ -150,7 +154,7 @@ export class AppComponent {
       align: 'left'
     };
     this.dataLabels = {
-      enabled: false
+      enabled: true
     };
     this.stroke = {
       curve: 'stepline'

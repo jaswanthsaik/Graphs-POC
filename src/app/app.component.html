@@ -20,7 +20,7 @@
 &nbsp;
 <div class="graphdetails">
   <div class="list-group-item">
-    <form>
+    <form (ngSubmit)="onSave()" #f="ngForm">
       <div class="row">
         <div class="col-xs-6">
           <label for="type">Chart Type</label>
@@ -56,7 +56,7 @@
       &nbsp;
       <div class="row">
         <div class="col-xs-12">
-          <button (click)="onSave()">Save</button>
+          <button type="submit">Save</button>
         </div>
       </div>
     </form>
