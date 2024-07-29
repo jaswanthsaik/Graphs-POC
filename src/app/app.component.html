@@ -3,7 +3,7 @@
     Select chart type and enter data to display the chart.
   </div> -->
   <img src="../assets/empty space.svg">
-  <div class="graph-container">
+  <div class="graph-container" *ngIf="selectedtype !== ''">
     <app-defaultbar *ngIf="selectedtype == 'bar'"></app-defaultbar>
     <app-defaultline *ngIf="selectedtype == 'line'"></app-defaultline>
     <app-defaultpie *ngIf="selectedtype == 'pie'"></app-defaultpie>
