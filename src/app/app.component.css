@@ -78,5 +78,22 @@
     width: 65px;
     height: 65px;
     cursor: pointer;
-    border: 0;
+    /* border: 0; */
+}
+.button-conatiner{
+    display: flex;
+    justify-content: end;
+}
+.add-button{
+font-family: Poppins;
+font-size: 14px;
+font-weight: 500;
+line-height: 21px;
+text-align: left;
+color: white;
+background-color: #285DD9;
+border: 1px solid #285DD9;
+height: 44px;
+padding: 8px 32px 8px 32px;
+border-radius: 16px;
 }
