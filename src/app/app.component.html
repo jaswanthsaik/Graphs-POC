@@ -35,10 +35,11 @@
           <!-- <div>
           <label for="Subtitle" class="title">Widget Subtitle (optional)</label>
           <input id="Subtitle" placeholder="Subtitle name 1" name="Subtitle" class="form-control" [(ngModel)]="Subtext">      
-        </div>   -->
-          <!-- <div>
+        </div> 
+          <div>
           <label for="title" class="title">Size</label>
           <select class="form-control" id="size" name="size">
+             <option value="" disabled selected>Select</option>
             <option value="large">Large</option>
             <option value="small">Small</option>
             <option value="small">Medium</option>
@@ -57,7 +58,7 @@
                  [class.selected]="selectedtype === chartType.type"
                  class="image-section"
                  >
-              <p style="display: flex;justify-content: center;">{{chartType.name}}</p>
+              <p class="graph-names">{{chartType.name}}</p>
             </div>
           </div>      
         </div>       
@@ -67,20 +68,22 @@
         <div class="col-xs-6">
           <label for="x-axis" class="title">{{selectedtype == 'pie'?'Segment By':'X-axis'}}</label>
           <select id="x-axis" class="form-control" [(ngModel)]="SelectXaxis" name="x-axis">
+            <option value="" disabled selected>Select</option>
               <option *ngFor="let i of Xaxis">{{ i }}</option>
           </select>        
         </div>
         <div class="col-xs-6">
           <label for="y-axis" class="title">{{selectedtype == 'pie'?'Measure':'Y-axis'}}</label>
           <select id="y-axis" class="form-control" [(ngModel)]="SelectYaxis" name="y-axis">
+            <option value="" disabled selected>Select</option>
             <option *ngFor="let i of Yaxis">{{ i }}</option>
           </select>            
         </div>
       </div>
       &nbsp;
       <div class="row">
-        <div class="col-xs-12">
-          <button type="submit">Save</button>
+        <div class="col-xs-12 button-conatiner">
+          <button class="add-button" type="submit">Add</button>
         </div>
       </div>
     </form>

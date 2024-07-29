@@ -22,9 +22,22 @@
 .graph-content {
     position: relative;
 }
+.graph-names{
+    display: flex;
+    justify-content: center;
+    font-family: Poppins;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 12px;
+    text-align: left;
+    color: #525252;
+    margin: 0;
+    margin-top: 4px;
+}
 
 .selected {
-    border: 2px solid blue;
+    border: 1px solid blue;
+    border-radius: 16px;
 }
 
 .empty-box {

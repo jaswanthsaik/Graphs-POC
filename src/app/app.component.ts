@@ -19,9 +19,9 @@ import {
 export class AppComponent {
   @ViewChild('f') Graphform:NgForm;
   types = [
-    { type: 'line', icon: 'assets/line.png', name:'Line' },
-    { type: 'bar', icon: 'assets/bar.png', name:'Bar'},
-    { type: 'pie', icon: 'assets/pie.png', name:'Pie' }
+    { type: 'line', icon: 'assets/linechart.png', name:'Line' },
+    { type: 'bar', icon: 'assets/barchart.png', name:'Vert. Bar'},
+    { type: 'pie', icon: 'assets/piechart.png', name:'Pie' }
   ];
  
   Xaxis = ["Accounts", "Subscriptions"];
