@@ -1,10 +1,15 @@
 <div class="graph">
-  <apx-chart
-  [series]="chartSeries"
-  [chart]="chartOptions"
-  [xaxis]="xaxis"
-  [title]="titleSubtitle">
-  </apx-chart>
+  <div *ngIf="!shouldDisplayChart()" class="empty-box">
+    Select chart type and enter data to display the chart.
+  </div>
+  <div *ngIf="shouldDisplayChart()">
+    <apx-chart
+      [series]="chartSeries"
+      [chart]="chartOptions"
+      [xaxis]="xaxis"
+      [title]="titleSubtitle">
+    </apx-chart>
+  </div>
 </div>
 &nbsp;
 <div class="graphdetails">
@@ -13,9 +18,14 @@
       <div class="row">
         <div class="col-xs-6">
           <label for="type">Chart Type</label>
-          <select id="type" class="form-control" [(ngModel)]="selectedtype" name="type">
-              <option *ngFor="let i of types">{{ i }}</option>
-          </select>        
+          <div id="type">
+            <img *ngFor="let chartType of types" 
+                 [src]="chartType.icon" 
+                 alt="{{ chartType.type }} chart" 
+                 (click)="selectChartType(chartType.type)"
+                 [class.selected]="selectedtype === chartType.type"
+                 style="width: 30px; height: 30px; cursor: pointer; margin: 5px;">
+          </div>       
         </div>
         <div class="col-xs-6">
           <label for="title">Title</label>
