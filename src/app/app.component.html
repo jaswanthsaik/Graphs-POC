@@ -1,20 +1,23 @@
 <div class="graph">
-  <div *ngIf="selectedtype == ''" class="empty-box">
+  <!-- <div *ngIf="selectedtype == ''" class="empty-box">
     Select chart type and enter data to display the chart.
-  </div>
-  <app-defaultbar *ngIf="selectedtype == 'bar'"></app-defaultbar>
-  <app-defaultline *ngIf="selectedtype == 'line'"></app-defaultline>
-  <app-defaultpie *ngIf="selectedtype == 'pie'"></app-defaultpie>
-  <div *ngIf="shouldDisplayChart()">
-    <apx-chart
-      [series]="chartSeries"
-      [chart]="chartOptions"
-      [xaxis]="xaxis"
-      [legend]="legend"
-      [labels]="chartLabels"
-      [dataLabels]="dataLabels"
-      [title]="titleSubtitle">
-    </apx-chart>
+  </div> -->
+  <img src="../assets/empty space.svg">
+  <div class="graph-container">
+    <app-defaultbar *ngIf="selectedtype == 'bar'"></app-defaultbar>
+    <app-defaultline *ngIf="selectedtype == 'line'"></app-defaultline>
+    <app-defaultpie *ngIf="selectedtype == 'pie'"></app-defaultpie>
+    <div *ngIf="shouldDisplayChart()">
+      <apx-chart
+        [series]="chartSeries"
+        [chart]="chartOptions"
+        [xaxis]="xaxis"
+        [legend]="legend"
+        [labels]="chartLabels"
+        [dataLabels]="dataLabels"
+        [title]="titleSubtitle">
+      </apx-chart>
+    </div>
   </div>
 </div>
 &nbsp;
@@ -23,31 +26,46 @@
     <form (ngSubmit)="onSave()" #f="ngForm">
       <div class="row">
         <div class="col-xs-6">
-          <label for="type">Chart Type</label>
-          <div id="type">
-            <img *ngFor="let chartType of types" 
-                 [src]="chartType.icon" 
-                 alt="{{ chartType.type }} chart" 
+          <div class="field-1">
+            <span class="header">Basic</span>
+          <div>
+          <label for="title" class="title">Widget title</label>
+          <input id="title" placeholder="Title name 1" name="title" class="form-control" [(ngModel)]="text">      
+        </div>  
+          <div>
+          <label for="title" class="title">Widget Subtitle (optional)</label>
+          <input id="title" placeholder="Subtitle name 1" name="title" class="form-control" [(ngModel)]="text">      
+        </div>  
+          <!-- <div>
+          <label for="title" class="title">Size</label>
+          <input id="title" name="title" class="form-control" [(ngModel)]="text">      
+        </div>  -->
+      </div>
+        </div>
+        <div class="field-1 col-xs-6">
+          <label for="type" class="header">Define a visualization</label>
+          <div id="type" class="image-container">
+            <img *ngFor="let chartType of types"
+                 [src]="chartType.icon"
+                 alt="{{ chartType.type }} chart"
                  (click)="selectChartType(chartType.type)"
                  [class.selected]="selectedtype === chartType.type"
-                 style="width: 30px; height: 30px; cursor: pointer; margin: 5px;">
-          </div>       
+                 class="image-section"
+                 >
+          </div>      
         </div>
-        <div class="col-xs-6">
-          <label for="title">Title</label>
-          <input id="title" name="title" class="form-control" [(ngModel)]="text">        
-        </div>
+       
       </div>
       &nbsp;
       <div class="row">
         <div class="col-xs-6">
-          <label for="x-axis">{{selectedtype == 'pie'?'Segment By':'X-axis'}}</label>
+          <label for="x-axis" class="title">{{selectedtype == 'pie'?'Segment By':'X-axis'}}</label>
           <select id="x-axis" class="form-control" [(ngModel)]="SelectXaxis" name="x-axis">
               <option *ngFor="let i of Xaxis">{{ i }}</option>
           </select>        
         </div>
         <div class="col-xs-6">
-          <label for="y-axis">{{selectedtype == 'pie'?'Measure':'Y-axis'}}</label>
+          <label for="y-axis" class="title">{{selectedtype == 'pie'?'Measure':'Y-axis'}}</label>
           <select id="y-axis" class="form-control" [(ngModel)]="SelectYaxis" name="y-axis">
             <option *ngFor="let i of Yaxis">{{ i }}</option>
           </select>            
