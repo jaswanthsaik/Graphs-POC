@@ -6,7 +6,8 @@ import {
   ApexTitleSubtitle,
   ApexDataLabels,
   ApexStroke,
-  ApexNonAxisChartSeries
+  ApexNonAxisChartSeries,
+  ApexLegend
 } from 'ng-apexcharts';
 
 @Component({
@@ -31,6 +32,7 @@ export class AppComponent {
  
   // default chart options
   chartSeries: ApexAxisChartSeries|ApexNonAxisChartSeries = [];
+  chartLabels: string[] = [];
  
   chartOptions: ApexChart = {
     type: 'line',
@@ -49,6 +51,11 @@ export class AppComponent {
   dataLabels: ApexDataLabels = {
     enabled: true
   };
+
+  legend: ApexLegend = {
+    show: true,
+    position: 'right'
+  };
  
   stroke: ApexStroke = {
     curve: 'smooth'
@@ -58,56 +65,89 @@ export class AppComponent {
 
   selectChartType(type: string) {
     this.selectedtype = type;
+    this.mode = false;
   }
  
   // customization of the graph from the inputs
   onSave() {
     if (this.SelectXaxis == 'Accounts') {
-      this.xaxis = {
-        categories: ["Account1", "Account2", "Account3", "Account4"]
-      };
+      if(this.selectedtype == 'pie'){
+        this.chartLabels = ["Account1", "Account2", "Account3", "Account4"]
+      }
+      else{
+        this.xaxis = {
+          categories: ["Account1", "Account2", "Account3", "Account4"]
+        };
+      }
       if (this.SelectYaxis == "Total_Cost") {
-        this.chartSeries = [{
-          name: "Total_Cost",
-          data: [100, 250, 135, 90]
-        }];
+        if(this.selectedtype == 'pie'){
+          this.chartSeries = [100, 250, 135, 90]
+        }
+        else{
+          this.chartSeries = [{
+            name: "Total_Cost",
+            data: [100, 250, 135, 90]
+          }];
+        }
       }
       if (this.SelectYaxis == "Total_Average_Cost") {
-        this.chartSeries = [{
-          name: "Total_Average_Cost",
-          data: [70, 100, 85, 50]
-        }];
+        if(this.selectedtype == 'pie'){
+          this.chartSeries = [70, 100, 85, 50]
+        }
+        else{
+          this.chartSeries = [{
+            name: "Total_Average_Cost",
+            data: [70, 100, 85, 50]
+          }];
+        }
       }
     }
     if (this.SelectXaxis == 'Subscriptions') {
-      this.xaxis = {
-        categories: ["Subscription1", "Subscription2", "Subscription3", "Subscription4"]
-      };
+      if(this.selectedtype == 'pie'){
+        this.chartLabels = ["Subscription1", "Subscription2", "Subscription3", "Subscription4"]
+      }
+      else{
+        this.xaxis = {
+          categories: ["Subscription1", "Subscription2", "Subscription3", "Subscription4"]
+        };
+      }
       if (this.SelectYaxis == "Total_Cost") {
-        this.chartSeries = [{
-          name: "Total_Cost",
-          data: [100, 250, 135, 90]
-        }];
+        if(this.selectedtype == 'pie'){
+          this.chartSeries = [100, 250, 135, 90]
+        }
+        else{
+          this.chartSeries = [{
+            name: "Total_Cost",
+            data: [100, 250, 135, 90]
+          }];
+        }
       }
       if (this.SelectYaxis == "Total_Average_Cost") {
-        this.chartSeries = [{
-          name: "Total_Average_Cost",
-          data: [70, 100, 85, 50]
-        }];
+        if(this.selectedtype == 'pie'){
+          this.chartSeries = [70, 100, 85, 50]
+        }
+        else{
+          this.chartSeries = [{
+            name: "Total_Average_Cost",
+            data: [70, 100, 85, 50]
+          }];
+        }
       }
     }
     this.updateChart();
+    this.selectedtype = 'new'
+    this.mode = true
   }
  
   // function to update the chart options
   updateChart() {
     this.chartOptions = {
       type: this.selectedtype as 'line' | 'bar' | 'pie',
-      height: 400
+      height: 350
     };
     this.titleSubtitle = {
       text: this.text,
-      align: 'center'
+      align: 'left'
     };
     this.dataLabels = {
       enabled: false
@@ -119,6 +159,6 @@ export class AppComponent {
  
   // check if chart should be displayed
   shouldDisplayChart() {
-    return this.selectedtype !== "" && this.chartSeries.length > 0;
+    return this.mode && this.chartSeries.length > 0;
   }
 }
