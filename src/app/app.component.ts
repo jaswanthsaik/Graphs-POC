@@ -5,7 +5,8 @@ import {
   ApexXAxis,
   ApexTitleSubtitle,
   ApexDataLabels,
-  ApexStroke
+  ApexStroke,
+  ApexNonAxisChartSeries
 } from 'ng-apexcharts';
 
 @Component({
@@ -24,36 +25,40 @@ export class AppComponent {
   Yaxis = ["Total_Cost", "Total_Average_Cost"];
   SelectXaxis = "";
   SelectYaxis = "";
-  selectedtype = ""; // no default chart type
+  selectedtype = "";
   text = "";
   mode = false;
  
   // default chart options
-  public chartSeries: ApexAxisChartSeries = [];
+  chartSeries: ApexAxisChartSeries|ApexNonAxisChartSeries = [];
  
-  public chartOptions: ApexChart = {
+  chartOptions: ApexChart = {
     type: 'line',
     height: 350
   };
  
-  public xaxis: ApexXAxis = {
+  xaxis: ApexXAxis = {
     categories: []
   };
  
-  public titleSubtitle: ApexTitleSubtitle = {
+  titleSubtitle: ApexTitleSubtitle = {
     text: "",
     align: 'left'
   };
  
-  public dataLabels: ApexDataLabels = {
+  dataLabels: ApexDataLabels = {
     enabled: true
   };
  
-  public stroke: ApexStroke = {
+  stroke: ApexStroke = {
     curve: 'smooth'
   };
  
   constructor() {}
+
+  selectChartType(type: string) {
+    this.selectedtype = type;
+  }
  
   // customization of the graph from the inputs
   onSave() {
@@ -91,12 +96,6 @@ export class AppComponent {
         }];
       }
     }
-    this.updateChart();
-  }
- 
-  // update chart type and other options
-  selectChartType(type: string) {
-    this.selectedtype = type;
     this.updateChart();
   }
  

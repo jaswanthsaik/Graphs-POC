@@ -3,8 +3,6 @@ import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexTitleSubtitle, ApexDataL
 
 @Component({
   selector: 'app-defaultbar',
-  standalone: true,
-  imports: [],
   templateUrl: './defaultbar.component.html',
   styleUrl: './defaultbar.component.css'
 })

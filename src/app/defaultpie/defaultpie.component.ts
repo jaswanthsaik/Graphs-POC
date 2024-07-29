@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { ApexNonAxisChartSeries, ApexChart, ApexTitleSubtitle, ApexLegend } from 'ng-apexcharts';
+import { ApexNonAxisChartSeries, ApexChart, ApexTitleSubtitle, ApexLegend, ApexDataLabels } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-defaultpie',
-  standalone: true,
-  imports: [],
   templateUrl: './defaultpie.component.html',
   styleUrl: './defaultpie.component.css'
 })
 export class DefaultpieComponent {
 
   chartSeries: ApexNonAxisChartSeries = [44, 55, 13, 43, 22];
+
+  chartLabels: string[] = ["Jan", "Feb", "Mar", "Apr", "May"]
 
   chartOptions: ApexChart = {
     type: 'pie',
@@ -25,6 +25,10 @@ export class DefaultpieComponent {
   legend: ApexLegend = {
     show: true,
     position: 'right'
+  };
+
+  dataLabels: ApexDataLabels = {
+    enabled: true
   };
 
 }

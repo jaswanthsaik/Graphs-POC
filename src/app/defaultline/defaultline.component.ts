@@ -3,8 +3,6 @@ import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexTitleSubtitle, ApexDataL
 
 @Component({
   selector: 'app-defaultline',
-  standalone: true,
-  imports: [],
   templateUrl: './defaultline.component.html',
   styleUrl: './defaultline.component.css'
 })
