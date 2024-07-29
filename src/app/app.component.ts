@@ -30,6 +30,7 @@ export class AppComponent {
   SelectYaxis = "";
   selectedtype = "";
   text = "";
+  Subtext = "";
   mode = false;
  
   // default chart options
