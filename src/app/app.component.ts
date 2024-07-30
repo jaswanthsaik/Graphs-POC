@@ -109,30 +109,24 @@ export class AppComponent {
       }
     }
     if (this.SelectXaxis == 'Subscriptions') {
-      if(this.selectedtype == 'pie'||'donut'){
+      if(this.selectedtype == 'pie' || this.selectedtype == 'donut'){
         this.chartLabels = ["Subscription1", "Subscription2", "Subscription3", "Subscription4"]
+        if (this.SelectYaxis == "Total_Cost") {
+          this.chartSeries = [100, 250, 135, 90];
+        } else if (this.SelectYaxis == "Total_Average_Cost") {
+          this.chartSeries = [70, 100, 85, 50];
+        }
       }
       else{
         this.xaxis = {
           categories: ["Subscription1", "Subscription2", "Subscription3", "Subscription4"]
         };
-      }
-      if (this.SelectYaxis == "Total_Cost") {
-        if(this.selectedtype == 'pie'||'donut'){
-          this.chartSeries = [100, 250, 135, 90]
-        }
-        else{
+        if (this.SelectYaxis == "Total_Cost") {
           this.chartSeries = [{
             name: "Total_Cost",
             data: [100, 250, 135, 90]
           }];
-        }
-      }
-      if (this.SelectYaxis == "Total_Average_Cost") {
-        if(this.selectedtype == 'pie'||'donut'){
-          this.chartSeries = [70, 100, 85, 50]
-        }
-        else{
+        } else if (this.SelectYaxis == "Total_Average_Cost") {
           this.chartSeries = [{
             name: "Total_Average_Cost",
             data: [70, 100, 85, 50]
@@ -156,15 +150,15 @@ export class AppComponent {
       text: this.text,
       align: 'left'
     };
-    for(let type of this.types){
-      if((type.type == this.selectedtype)&&(type.name=='Hort. Bar')){
-        this.plotOptions = {
-          bar: {
-            horizontal: true
-          }
+
+    if(this.selectedtype == 'bar' && this.selectedtypeName=='Hor. Bar'){
+      this.plotOptions = {
+        bar: {
+          horizontal: true
         }
       }
     }
+
     this.stroke = {
       curve: 'stepline'
     };

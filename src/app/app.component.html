@@ -10,6 +10,7 @@
     <app-default-stackedbar *ngIf="selectedtypeName == 'Stacked Bar'"></app-default-stackedbar>
     <app-defaultdonut *ngIf="selectedtypeName == 'Donut'"></app-defaultdonut>
     <app-defaultcolumnbar *ngIf="selectedtypeName == 'Column Bar'"></app-defaultcolumnbar>
+    <app-defaulthorbar *ngIf="selectedtypeName == 'Hor. Bar'"></app-defaulthorbar>
     <div *ngIf="shouldDisplayChart()">
       <apx-chart
         [series]="chartSeries"

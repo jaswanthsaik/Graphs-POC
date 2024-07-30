@@ -10,6 +10,7 @@ import { DefaultpieComponent } from './defaultpie/defaultpie.component';
 import { DefaultStackedbarComponent } from './default-stackedbar/default-stackedbar.component';
 import { DefaultdonutComponent } from './defaultdonut/defaultdonut.component';
 import { DefaultcolumnbarComponent } from './defaultcolumnbar/defaultcolumnbar.component';
+import { DefaulthorbarComponent } from './defaulthorbar/defaulthorbar.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { DefaultcolumnbarComponent } from './defaultcolumnbar/defaultcolumnbar.c
     DefaultpieComponent,
     DefaultStackedbarComponent,
     DefaultdonutComponent,
-    DefaultcolumnbarComponent
+    DefaultcolumnbarComponent,
+    DefaulthorbarComponent
   ],
   imports: [
     BrowserModule,
