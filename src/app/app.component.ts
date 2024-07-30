@@ -8,7 +8,8 @@ import {
   ApexDataLabels,
   ApexStroke,
   ApexNonAxisChartSeries,
-  ApexLegend
+  ApexLegend,
+  ApexPlotOptions
 } from 'ng-apexcharts';
 
 @Component({
@@ -21,7 +22,11 @@ export class AppComponent {
   types = [
     { type: 'line', icon: 'assets/linechart.png', name:'Line' },
     { type: 'bar', icon: 'assets/barchart.png', name:'Vert. Bar'},
-    { type: 'pie', icon: 'assets/piechart.png', name:'Pie' }
+    { type: 'pie', icon: 'assets/piechart.png', name:'Pie' },
+    { type: 'bar', icon: 'assets/barchart.png', name:'Hort. Bar'},
+    { type: 'donut', icon: 'assets/piechart.png', name:'Donut' },
+    { type: 'bar', icon: 'assets/barchart.png', name:'Stacked Bar'},
+    { type: 'bar', icon: 'assets/barchart.png', name:'Column Bar'}
   ];
  
   Xaxis = ["Accounts", "Subscriptions"];
@@ -29,6 +34,7 @@ export class AppComponent {
   SelectXaxis = "";
   SelectYaxis = "";
   selectedtype = "";
+  selectedtypeName = "";
   text = "";
   Subtext = "";
   mode = false;
@@ -55,6 +61,8 @@ export class AppComponent {
     enabled: true
   };
 
+  plotOptions: ApexPlotOptions;
+
   legend: ApexLegend = {
     show: true,
     position: 'right'
@@ -66,8 +74,9 @@ export class AppComponent {
  
   constructor() {}
 
-  selectChartType(type: string) {
-    this.selectedtype = type;
+  selectChartType(charttype: any) {
+    this.selectedtype = charttype.type;
+    this.selectedtypeName = charttype.name
     this.mode = false;
     this.Graphform.reset()
   }
@@ -75,7 +84,7 @@ export class AppComponent {
   // customization of the graph from the inputs
   onSave() {
     if (this.SelectXaxis == 'Accounts') {
-      if(this.selectedtype == 'pie'){
+      if(this.selectedtype == 'pie'||'donut'){
         this.chartLabels = ["Account1", "Account2", "Account3", "Account4"]
       }
       else{
@@ -84,7 +93,7 @@ export class AppComponent {
         };
       }
       if (this.SelectYaxis == "Total_Cost") {
-        if(this.selectedtype == 'pie'){
+        if(this.selectedtype == 'pie'||'donut'){
           this.chartSeries = [100, 250, 135, 90]
         }
         else{
@@ -95,7 +104,7 @@ export class AppComponent {
         }
       }
       if (this.SelectYaxis == "Total_Average_Cost") {
-        if(this.selectedtype == 'pie'){
+        if(this.selectedtype == 'pie'||'donut'){
           this.chartSeries = [70, 100, 85, 50]
         }
         else{
@@ -107,7 +116,7 @@ export class AppComponent {
       }
     }
     if (this.SelectXaxis == 'Subscriptions') {
-      if(this.selectedtype == 'pie'){
+      if(this.selectedtype == 'pie'||'donut'){
         this.chartLabels = ["Subscription1", "Subscription2", "Subscription3", "Subscription4"]
       }
       else{
@@ -116,7 +125,7 @@ export class AppComponent {
         };
       }
       if (this.SelectYaxis == "Total_Cost") {
-        if(this.selectedtype == 'pie'){
+        if(this.selectedtype == 'pie'||'donut'){
           this.chartSeries = [100, 250, 135, 90]
         }
         else{
@@ -127,7 +136,7 @@ export class AppComponent {
         }
       }
       if (this.SelectYaxis == "Total_Average_Cost") {
-        if(this.selectedtype == 'pie'){
+        if(this.selectedtype == 'pie'||'donut'){
           this.chartSeries = [70, 100, 85, 50]
         }
         else{
@@ -147,16 +156,22 @@ export class AppComponent {
   // function to update the chart options
   updateChart() {
     this.chartOptions = {
-      type: this.selectedtype as 'line' | 'bar' | 'pie',
+      type: this.selectedtype as 'line' | 'bar' | 'pie' | 'donut',
       height: 350
     };
     this.titleSubtitle = {
       text: this.text,
       align: 'left'
     };
-    this.dataLabels = {
-      enabled: true
-    };
+    for(let type of this.types){
+      if((type.type == this.selectedtype)&&(type.name=='Hort. Bar')){
+        this.plotOptions = {
+          bar: {
+            horizontal: true
+          }
+        }
+      }
+    }
     this.stroke = {
       curve: 'stepline'
     };

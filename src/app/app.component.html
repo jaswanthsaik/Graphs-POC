@@ -4,9 +4,12 @@
   </div> -->
   <img src="../assets/empty space.svg">
   <div class="graph-container" *ngIf="selectedtype !== ''">
-    <app-defaultbar *ngIf="selectedtype == 'bar'"></app-defaultbar>
-    <app-defaultline *ngIf="selectedtype == 'line'"></app-defaultline>
-    <app-defaultpie *ngIf="selectedtype == 'pie'"></app-defaultpie>
+    <app-defaultbar *ngIf="selectedtypeName == 'Vert. Bar'"></app-defaultbar>
+    <app-defaultline *ngIf="selectedtypeName == 'Line'"></app-defaultline>
+    <app-defaultpie *ngIf="selectedtypeName == 'Pie'"></app-defaultpie>
+    <app-default-stackedbar *ngIf="selectedtypeName == 'Stacked Bar'"></app-default-stackedbar>
+    <app-defaultdonut *ngIf="selectedtypeName == 'Donut'"></app-defaultdonut>
+    <app-defaultcolumnbar *ngIf="selectedtypeName == 'Column Bar'"></app-defaultcolumnbar>
     <div *ngIf="shouldDisplayChart()">
       <apx-chart
         [series]="chartSeries"
@@ -15,6 +18,7 @@
         [legend]="legend"
         [labels]="chartLabels"
         [dataLabels]="dataLabels"
+        [plotOptions]="plotOptions"
         [title]="titleSubtitle">
       </apx-chart>
     </div>
@@ -54,7 +58,7 @@
               <img
                  [src]="chartType.icon"
                  alt="{{ chartType.type }} chart"
-                 (click)="selectChartType(chartType.type)"
+                 (click)="selectChartType(chartType)"
                  [class.selected]="selectedtype === chartType.type"
                  class="image-section"
                  >

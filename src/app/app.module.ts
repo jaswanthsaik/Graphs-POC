@@ -7,13 +7,19 @@ import { AppComponent } from './app.component';
 import { DefaultbarComponent } from './defaultbar/defaultbar.component';
 import { DefaultlineComponent } from './defaultline/defaultline.component';
 import { DefaultpieComponent } from './defaultpie/defaultpie.component';
+import { DefaultStackedbarComponent } from './default-stackedbar/default-stackedbar.component';
+import { DefaultdonutComponent } from './defaultdonut/defaultdonut.component';
+import { DefaultcolumnbarComponent } from './defaultcolumnbar/defaultcolumnbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DefaultbarComponent,
     DefaultlineComponent,
-    DefaultpieComponent
+    DefaultpieComponent,
+    DefaultStackedbarComponent,
+    DefaultdonutComponent,
+    DefaultcolumnbarComponent
   ],
   imports: [
     BrowserModule,
