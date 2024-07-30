@@ -84,12 +84,51 @@ export class AppComponent {
   // customization of the graph from the inputs
   onSave() {
     if (this.SelectXaxis == 'Accounts') {
-      if(this.selectedtype == 'pie' || this.selectedtype == 'donut'){
+      if(this.selectedtypeName == 'Pie' || this.selectedtypeName == 'Donut'){
         this.chartLabels = ["Account1", "Account2", "Account3", "Account4"];
         if (this.SelectYaxis == "Total_Cost") {
           this.chartSeries = [100, 250, 135, 90];
         } else if (this.SelectYaxis == "Total_Average_Cost") {
           this.chartSeries = [70, 100, 85, 50];
+        }
+      }else if(this.selectedtypeName=='Stacked Bar'||this.selectedtypeName=='Column Bar'){
+        this.xaxis = {
+          categories: ["Jan", "Feb", "Mar", "Apr"]
+        };
+        if(this.SelectYaxis == "Total_Cost"){
+          this.chartSeries = [{
+            name: "Account1",
+            data: [20, 35, 30, 15]
+          },
+          {
+            name: "Account2",
+            data: [30, 50, 100, 70]
+          },
+          {
+            name: "Account3",
+            data: [10, 25, 35, 65]
+          },
+          {
+            name: "Account4",
+            data: [15, 25, 30, 20]
+          }];
+        }else if(this.SelectYaxis =="Total_Average_Cost"){
+          this.chartSeries = [{
+            name: "Account1",
+            data: [10, 25, 20, 15]
+          },
+          {
+            name: "Account2",
+            data: [40, 20, 30, 10]
+          },
+          {
+            name: "Account3",
+            data: [30, 25, 20, 10]
+          },
+          {
+            name: "Account4",
+            data: [10, 20, 15, 5]
+          }];
         }
       } else {
         this.xaxis = {
@@ -116,7 +155,46 @@ export class AppComponent {
         } else if (this.SelectYaxis == "Total_Average_Cost") {
           this.chartSeries = [70, 100, 85, 50];
         }
-      }
+      }else if(this.selectedtypeName=='Stacked Bar'||this.selectedtypeName=='Column Bar'){
+        this.xaxis = {
+          categories: ["Jan", "Feb", "Mar", "Apr"]
+        };
+        if(this.SelectYaxis == "Total_Cost"){
+          this.chartSeries = [{
+            name: "Subscription1",
+            data: [20, 35, 30, 15]
+          },
+          {
+            name: "Subscription2",
+            data: [30, 50, 100, 70]
+          },
+          {
+            name: "Subscription3",
+            data: [10, 25, 35, 65]
+          },
+          {
+            name: "Subscription4",
+            data: [15, 25, 30, 20]
+          }];
+        }else if(this.SelectYaxis =="Total_Average_Cost"){
+          this.chartSeries = [{
+            name: "Subscription1",
+            data: [10, 25, 20, 15]
+          },
+          {
+            name: "Subscription2",
+            data: [40, 20, 30, 10]
+          },
+          {
+            name: "Subscription3",
+            data: [30, 25, 20, 10]
+          },
+          {
+            name: "Subscription4",
+            data: [10, 20, 15, 5]
+          }];
+        }
+      } 
       else{
         this.xaxis = {
           categories: ["Subscription1", "Subscription2", "Subscription3", "Subscription4"]
@@ -142,16 +220,24 @@ export class AppComponent {
  
   // function to update the chart options
   updateChart() {
-    this.chartOptions = {
-      type: this.selectedtype as 'line' | 'bar' | 'pie' | 'donut',
-      height: 350
-    };
+    if(this.selectedtypeName == "Stacked Bar"){
+      this.chartOptions ={
+        type:this.selectedtype as 'bar',
+        height:350,
+        stacked:true
+      }
+    }else{
+      this.chartOptions = {
+        type: this.selectedtype as 'line' | 'bar' | 'pie' | 'donut',
+        height: 350
+      };
+    }
     this.titleSubtitle = {
       text: this.text,
       align: 'left'
     };
 
-    if(this.selectedtype == 'bar' && this.selectedtypeName=='Hor. Bar'){
+    if(this.selectedtypeName=='Hor. Bar'){
       this.plotOptions = {
         bar: {
           horizontal: true
@@ -166,6 +252,6 @@ export class AppComponent {
  
   // check if chart should be displayed
   shouldDisplayChart() {
-    return this.mode && this.chartSeries.length > 0;
+    return this.mode && this.selectedtype !== ''&& this.chartSeries.length > 0;
   }
 }
