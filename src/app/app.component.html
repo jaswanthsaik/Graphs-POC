@@ -59,7 +59,7 @@
                  [src]="chartType.icon"
                  alt="{{ chartType.type }} chart"
                  (click)="selectChartType(chartType)"
-                 [class.selected]="selectedtype === chartType.type"
+                 [class.selected]="selectedtypeName === chartType.name"
                  class="image-section"
                  >
               <p class="graph-names">{{chartType.name}}</p>

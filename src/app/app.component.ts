@@ -23,9 +23,9 @@ export class AppComponent {
     { type: 'line', icon: 'assets/linechart.png', name:'Line' },
     { type: 'bar', icon: 'assets/barchart.png', name:'Vert. Bar'},
     { type: 'pie', icon: 'assets/piechart.png', name:'Pie' },
-    { type: 'bar', icon: 'assets/hor.barchart.png', name:'Hort. Bar'},
+    { type: 'bar', icon: 'assets/hor.barchart.png', name:'Hor. Bar'},
     { type: 'donut', icon: 'assets/donutchart.png', name:'Donut' },
-    { type: 'bar', icon: 'assets/vert.stacked.barchart.png', name:'Stacked Bar'},
+    { type: 'bar', icon: 'assets/vert.stacked.chart.png', name:'Stacked Bar'},
     { type: 'bar', icon: 'assets/vert.group.barchart.png', name:'Column Bar'}
   ];
  
