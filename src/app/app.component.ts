@@ -84,30 +84,23 @@ export class AppComponent {
   // customization of the graph from the inputs
   onSave() {
     if (this.SelectXaxis == 'Accounts') {
-      if(this.selectedtype == 'pie'||'donut'){
-        this.chartLabels = ["Account1", "Account2", "Account3", "Account4"]
-      }
-      else{
+      if(this.selectedtype == 'pie' || this.selectedtype == 'donut'){
+        this.chartLabels = ["Account1", "Account2", "Account3", "Account4"];
+        if (this.SelectYaxis == "Total_Cost") {
+          this.chartSeries = [100, 250, 135, 90];
+        } else if (this.SelectYaxis == "Total_Average_Cost") {
+          this.chartSeries = [70, 100, 85, 50];
+        }
+      } else {
         this.xaxis = {
           categories: ["Account1", "Account2", "Account3", "Account4"]
         };
-      }
-      if (this.SelectYaxis == "Total_Cost") {
-        if(this.selectedtype == 'pie'||'donut'){
-          this.chartSeries = [100, 250, 135, 90]
-        }
-        else{
+        if (this.SelectYaxis == "Total_Cost") {
           this.chartSeries = [{
             name: "Total_Cost",
             data: [100, 250, 135, 90]
           }];
-        }
-      }
-      if (this.SelectYaxis == "Total_Average_Cost") {
-        if(this.selectedtype == 'pie'||'donut'){
-          this.chartSeries = [70, 100, 85, 50]
-        }
-        else{
+        } else if (this.SelectYaxis == "Total_Average_Cost") {
           this.chartSeries = [{
             name: "Total_Average_Cost",
             data: [70, 100, 85, 50]
@@ -148,7 +141,7 @@ export class AppComponent {
       }
     }
     this.updateChart();
-    this.selectedtype = 'new'
+    this.selectedtypeName = 'new'
     this.mode = true
     this.Graphform.reset()
   }
