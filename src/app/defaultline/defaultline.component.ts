@@ -47,6 +47,9 @@ export class DefaultlineComponent implements OnInit, AfterViewInit, OnChanges {
       title: {
         text: this.chartData!.title
       },
+      tooltip: {
+        trigger: 'axis',
+      },
       xAxis: {
         type: 'category',
         data: this.chartData!.xAxis
@@ -66,6 +69,9 @@ export class DefaultlineComponent implements OnInit, AfterViewInit, OnChanges {
   private getDefaultOption(): echarts.EChartsOption {
     return {
       title: { text: 'Default Line Chart' },
+      tooltip: {
+        trigger: 'axis',
+      },
       xAxis: {
         type: 'category',
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']

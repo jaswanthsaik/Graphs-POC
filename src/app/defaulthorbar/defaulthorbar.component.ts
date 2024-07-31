@@ -44,6 +44,9 @@ export class DefaulthorbarComponent implements OnInit, OnChanges {
       title: {
         text: this.chartData!.title
       },
+      tooltip: {
+        trigger: 'axis',
+      },
       yAxis: {
         type: 'category',
         data: this.chartData!.xAxis
@@ -65,6 +68,9 @@ export class DefaulthorbarComponent implements OnInit, OnChanges {
     return {
       title: {
         text: 'Default Horizontal Bar Chart'
+      },
+      tooltip: {
+        trigger: 'axis',
       },
       yAxis: {
         type: 'category',

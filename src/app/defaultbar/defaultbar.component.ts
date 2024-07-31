@@ -45,6 +45,9 @@ export class DefaultbarComponent implements OnInit, OnChanges {
       title: {
         text: this.chartData!.title
       },
+      tooltip: {
+        trigger: 'axis',
+      },
       xAxis: {
         type: 'category',
         data: this.chartData!.xAxis
@@ -64,6 +67,9 @@ export class DefaultbarComponent implements OnInit, OnChanges {
   private getDefaultOption(): echarts.EChartsCoreOption {
     return {
       title: { text: 'Default Bar Chart' },
+      tooltip: {
+        trigger: 'axis',
+      },
       xAxis: { type: 'category', data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
       yAxis: { type: 'value' },
       series: [{ data: [120, 200, 150, 80, 70, 110, 130], type: 'bar' }]
