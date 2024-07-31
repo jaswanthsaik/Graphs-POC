@@ -1,28 +1,13 @@
 <div class="graph">
-  <!-- <div *ngIf="selectedtype == ''" class="empty-box">
-    Select chart type and enter data to display the chart.
-  </div> -->
   <img src="../assets/empty space.svg">
   <div class="graph-container" *ngIf="selectedtype !== ''">
-    <app-defaultbar *ngIf="selectedtypeName == 'Vert. Bar'"></app-defaultbar>
-    <app-defaultline *ngIf="selectedtypeName == 'Line'"></app-defaultline>
-    <app-defaultpie *ngIf="selectedtypeName == 'Pie'"></app-defaultpie>
+    <app-defaultbar *ngIf="selectedtypeName == 'Vert. Bar'" [chartData]="chartData"></app-defaultbar>
+    <app-defaultline *ngIf="selectedtypeName == 'Line'" [chartData]="chartData"></app-defaultline>
+    <app-defaultpie *ngIf="selectedtypeName == 'Pie'" [chartData]="chartData"></app-defaultpie>    
     <app-default-stackedbar *ngIf="selectedtypeName == 'Stacked Bar'"></app-default-stackedbar>
     <app-defaultdonut *ngIf="selectedtypeName == 'Donut'"></app-defaultdonut>
     <app-defaultcolumnbar *ngIf="selectedtypeName == 'Column Bar'"></app-defaultcolumnbar>
-    <app-defaulthorbar *ngIf="selectedtypeName == 'Hor. Bar'"></app-defaulthorbar>
-    <div *ngIf="shouldDisplayChart()">
-      <apx-chart
-        [series]="chartSeries"
-        [chart]="chartOptions"
-        [xaxis]="xaxis"
-        [legend]="legend"
-        [labels]="chartLabels"
-        [dataLabels]="dataLabels"
-        [plotOptions]="plotOptions"
-        [title]="titleSubtitle">
-      </apx-chart>
-    </div>
+    <app-defaulthorbar *ngIf="selectedtypeName == 'Hor. Bar'" [chartData]="chartData"></app-defaulthorbar>  
   </div>
 </div>
 &nbsp;

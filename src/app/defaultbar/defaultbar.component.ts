@@ -1,18 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-// import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexTitleSubtitle, ApexDataLabels, ApexStroke } from 'ng-apexcharts';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as echarts from 'echarts/core';
-import { GridComponent, GridComponentOption } from 'echarts/components';
-import { BarChart, BarSeriesOption } from 'echarts/charts';
-import { CanvasRenderer } from 'echarts/renderers';
-
-echarts.use([GridComponent, BarChart, CanvasRenderer]);
+// ... other imports
 
 @Component({
   selector: 'app-defaultbar',
   templateUrl: './defaultbar.component.html',
   styleUrl: './defaultbar.component.css'
 })
-export class DefaultbarComponent implements OnInit {
+export class DefaultbarComponent implements OnInit, OnChanges {
+  @Input() chartData: { title: string, xAxis: string[], yAxis: number[] } | null = null;
   
   private myChart!: echarts.ECharts;
 
@@ -20,60 +16,57 @@ export class DefaultbarComponent implements OnInit {
     this.initChart();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['chartData'] && this.chartData) {
+      this.updateChart();
+    }
+  }
+
   initChart() {
     const chartDom = document.getElementById('chart-container');
     if (chartDom) {
       this.myChart = echarts.init(chartDom);
-      this.setChartOption();
+      this.updateChart();
     }
   }
 
-  setChartOption() {
-    const option: echarts.EChartsCoreOption = {
+  updateChart() {
+    if (this.myChart) {
+      const option: echarts.EChartsCoreOption = this.chartData 
+        ? this.getDataOption() 
+        : this.getDefaultOption();
+
+      this.myChart.setOption(option, true);  // Added true to ensure full reset
+    }
+  }
+
+  private getDataOption(): echarts.EChartsCoreOption {
+    return {
+      title: {
+        text: this.chartData!.title
+      },
       xAxis: {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        data: this.chartData!.xAxis
       },
       yAxis: {
         type: 'value'
       },
       series: [
         {
-          data: [120, 200, 150, 80, 70, 110, 130],
+          data: this.chartData!.yAxis,
           type: 'bar'
         }
       ]
     };
+  }
 
-    this.myChart.setOption(option);
+  private getDefaultOption(): echarts.EChartsCoreOption {
+    return {
+      title: { text: 'Default Bar Chart' },
+      xAxis: { type: 'category', data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
+      yAxis: { type: 'value' },
+      series: [{ data: [120, 200, 150, 80, 70, 110, 130], type: 'bar' }]
+    };
   }
 }
-
-//   chartSeries: ApexAxisChartSeries = [{
-//     name: "New Customers",
-//     data: [10, 20, 30, 40, 50]
-//   }];
-
-//   chartOptions: ApexChart = {
-//     type: 'bar',
-//     height: 350
-//   };
-
-//   xaxis: ApexXAxis = {
-//     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May']
-//   };
-
-//   titleSubtitle: ApexTitleSubtitle = {
-//     text: "Bar Chart",
-//     align: 'left'
-//   };
-
-//   dataLabels: ApexDataLabels = {
-//     enabled: true
-//   };
-
-//   stroke: ApexStroke = {
-//     curve: 'smooth'
-//   };
-
-// }

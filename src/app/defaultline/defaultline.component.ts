@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-// import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexTitleSubtitle, ApexDataLabels, ApexStroke } from 'ng-apexcharts';
+import { AfterViewInit, Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as echarts from 'echarts';
 
 @Component({
@@ -7,8 +6,10 @@ import * as echarts from 'echarts';
   templateUrl: './defaultline.component.html',
   styleUrl: './defaultline.component.css'
 })
-export class DefaultlineComponent implements OnInit, AfterViewInit {
-  private chart: any;
+export class DefaultlineComponent implements OnInit, AfterViewInit, OnChanges {
+  @Input() chartData: { title: string, xAxis: string[], yAxis: number[] } | null = null;
+  
+  private chart: echarts.ECharts | null = null;
 
   constructor() { }
 
@@ -19,14 +20,52 @@ export class DefaultlineComponent implements OnInit, AfterViewInit {
     window.addEventListener('resize', this.onResize.bind(this));
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['chartData'] && this.chart) {
+      this.updateChart();
+    }
+  }
+
   initChart(): void {
     const chartDom = document.getElementById('chart-container')!;
     this.chart = echarts.init(chartDom, undefined, {
       renderer: 'canvas',
       useDirtyRect: false
     });
+    this.updateChart();
+  }
 
-    const option = {
+  updateChart(): void {
+    if (this.chart) {
+      const option = this.chartData ? this.getDataOption() : this.getDefaultOption();
+      this.chart.setOption(option, true);
+    }
+  }
+
+  private getDataOption(): echarts.EChartsOption {
+    return {
+      title: {
+        text: this.chartData!.title
+      },
+      xAxis: {
+        type: 'category',
+        data: this.chartData!.xAxis
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: this.chartData!.yAxis,
+          type: 'line'
+        }
+      ]
+    };
+  }
+
+  private getDefaultOption(): echarts.EChartsOption {
+    return {
+      title: { text: 'Default Line Chart' },
       xAxis: {
         type: 'category',
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -41,10 +80,6 @@ export class DefaultlineComponent implements OnInit, AfterViewInit {
         }
       ]
     };
-
-    if (option && typeof option === 'object') {
-      this.chart.setOption(option);
-    }
   }
 
   onResize(): void {
@@ -53,35 +88,3 @@ export class DefaultlineComponent implements OnInit, AfterViewInit {
     }
   }
 }
-
-
-
-
-//   chartSeries: ApexAxisChartSeries = [{
-//     name: "New Customers",
-//     data: [10, 20, 30, 40, 50]
-//   }];
-
-//   chartOptions: ApexChart = {
-//     type: 'line',
-//     height: 350
-//   };
-
-//   xaxis: ApexXAxis = {
-//     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May']
-//   };
-
-//   titleSubtitle: ApexTitleSubtitle = {
-//     text: "Line Chart",
-//     align: 'left'
-//   };
-
-//   dataLabels: ApexDataLabels = {
-//     enabled: true
-//   };
-
-//   stroke: ApexStroke = {
-//     curve: 'smooth'
-//   };
-
-// }

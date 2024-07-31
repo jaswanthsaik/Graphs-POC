@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-// import { ApexNonAxisChartSeries, ApexChart, ApexTitleSubtitle, ApexLegend, ApexDataLabels } from 'ng-apexcharts';
+import { AfterViewInit, Component, OnDestroy, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as echarts from 'echarts';
 
 @Component({
@@ -7,7 +6,9 @@ import * as echarts from 'echarts';
   templateUrl: './defaultpie.component.html',
   styleUrl: './defaultpie.component.css'
 })
-export class DefaultpieComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DefaultpieComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
+  @Input() chartData: { title: string, xAxis: string[], yAxis: number[] } | null = null;
+
   private myChart: echarts.ECharts | null = null;
 
   constructor() {}
@@ -26,13 +27,63 @@ export class DefaultpieComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['chartData'] && this.myChart) {
+      this.updateChart();
+    }
+  }
+
   initChart(): void {
     const chartDom = document.getElementById('main')!;
     this.myChart = echarts.init(chartDom);
-    const option: echarts.EChartsOption = {
+    this.updateChart();
+  }
+
+  updateChart(): void {
+    if (this.myChart) {
+      const option = this.chartData ? this.getDataOption() : this.getDefaultOption();
+      this.myChart.setOption(option, true);
+    }
+  }
+
+  private getDataOption(): echarts.EChartsOption {
+    return {
       title: {
-        text: 'Referer of a Website',
-        subtext: 'Fake Data',
+        text: this.chartData!.title,
+        left: 'center'
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'left'
+      },
+      series: [
+        {
+          name: 'Data',
+          type: 'pie',
+          radius: '50%',
+          data: this.chartData!.xAxis.map((label, index) => ({
+            value: this.chartData!.yAxis[index],
+            name: label
+          })),
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }
+      ]
+    };
+  }
+
+  private getDefaultOption(): echarts.EChartsOption {
+    return {
+      title: {
+        text: 'Default Pie Chart',
         left: 'center'
       },
       tooltip: {
@@ -64,8 +115,6 @@ export class DefaultpieComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       ]
     };
-
-    this.myChart.setOption(option);
   }
 
   onResize = (): void => {
@@ -74,28 +123,3 @@ export class DefaultpieComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 }
-
-//   chartSeries: ApexNonAxisChartSeries = [44, 55, 13, 43, 22];
-
-//   chartLabels: string[] = ["Jan", "Feb", "Mar", "Apr", "May"]
-
-//   chartOptions: ApexChart = {
-//     type: 'pie',
-//     height: 350
-//   };
-
-//   titleSubtitle: ApexTitleSubtitle = {
-//     text: "Pie Chart",
-//     align: 'left'
-//   };
-
-//   legend: ApexLegend = {
-//     show: true,
-//     position: 'right'
-//   };
-
-//   dataLabels: ApexDataLabels = {
-//     enabled: true
-//   };
-
-// }

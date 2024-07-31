@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as echarts from 'echarts/core';
 import { GridComponent, GridComponentOption } from 'echarts/components';
 import { BarChart, BarSeriesOption } from 'echarts/charts';
@@ -11,7 +11,8 @@ echarts.use([GridComponent, BarChart, CanvasRenderer]);
   templateUrl: './defaulthorbar.component.html',
   styleUrls: ['./defaulthorbar.component.css']
 })
-export class DefaulthorbarComponent implements OnInit {
+export class DefaulthorbarComponent implements OnInit, OnChanges {
+  @Input() chartData: { title: string, xAxis: string[], yAxis: number[] } | null = null;
 
   private myChart!: echarts.ECharts;
 
@@ -19,16 +20,52 @@ export class DefaulthorbarComponent implements OnInit {
     this.initChart();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['chartData'] && this.myChart) {
+      this.updateChart();
+    }
+  }
+
   initChart() {
     const chartDom = document.getElementById('chart-container');
     if (chartDom) {
       this.myChart = echarts.init(chartDom);
-      this.setChartOption();
+      this.updateChart();
     }
   }
 
-  setChartOption() {
-    const option: echarts.EChartsCoreOption = {
+  updateChart() {
+    const option = this.chartData ? this.getDataOption() : this.getDefaultOption();
+    this.myChart.setOption(option, true);
+  }
+
+  getDataOption(): echarts.EChartsCoreOption {
+    return {
+      title: {
+        text: this.chartData!.title
+      },
+      yAxis: {
+        type: 'category',
+        data: this.chartData!.xAxis
+      },
+      xAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: this.chartData!.yAxis,
+          type: 'bar',
+          orientation: 'horizontal'
+        }
+      ]
+    };
+  }
+
+  getDefaultOption(): echarts.EChartsCoreOption {
+    return {
+      title: {
+        text: 'Default Horizontal Bar Chart'
+      },
       yAxis: {
         type: 'category',
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -44,43 +81,5 @@ export class DefaulthorbarComponent implements OnInit {
         }
       ]
     };
-
-    this.myChart.setOption(option);
   }
 }
-
-
-//   chartSeries: ApexAxisChartSeries = [{
-//     name: "New Customers",
-//     data: [10, 20, 30, 40, 50]
-//   }];
-
-//   chartOptions: ApexChart = {
-//     type: 'bar',
-//     height: 350
-//   };
-
-//   xaxis: ApexXAxis = {
-//     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May']
-//   };
-
-//   titleSubtitle: ApexTitleSubtitle = {
-//     text: "Horizantal Bar Chart",
-//     align: 'left'
-//   };
-
-//   dataLabels: ApexDataLabels = {
-//     enabled: true
-//   };
-
-//   plotoptions:ApexPlotOptions ={
-//     bar:{
-//       horizontal:true
-//     }
-//   };
-
-//   stroke: ApexStroke = {
-//     curve: 'smooth'
-//   };
-
-// }
