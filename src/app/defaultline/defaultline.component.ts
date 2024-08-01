@@ -15,7 +15,8 @@ export class DefaultlineComponent {
 
   chartOptions: ApexChart = {
     type: 'line',
-    height: 350
+    height: 350,
+    width:900
   };
 
   xaxis: ApexXAxis = {

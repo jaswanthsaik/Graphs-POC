@@ -28,6 +28,7 @@ export class DefaultStackedbarComponent {
   chartOptions: ApexChart = {
     type: 'bar',
     height: 350,
+    width:900,
     stacked: true,
     toolbar: {
       show: true

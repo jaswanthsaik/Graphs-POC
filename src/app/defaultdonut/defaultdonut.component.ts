@@ -14,7 +14,8 @@ export class DefaultdonutComponent {
 
   chartOptions: ApexChart = {
     type: 'donut',
-    height: 350
+    height: 350,
+    width:900
   };
 
   titleSubtitle: ApexTitleSubtitle = {

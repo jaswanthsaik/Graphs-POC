@@ -14,7 +14,8 @@ export class DefaultpieComponent {
 
   chartOptions: ApexChart = {
     type: 'pie',
-    height: 350
+    height: 350,
+    width:900
   };
 
   titleSubtitle: ApexTitleSubtitle = {

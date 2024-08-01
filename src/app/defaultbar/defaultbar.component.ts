@@ -15,7 +15,8 @@ export class DefaultbarComponent {
 
   chartOptions: ApexChart = {
     type: 'bar',
-    height: 350
+    height: 350,
+    width:900
   };
 
   xaxis: ApexXAxis = {
