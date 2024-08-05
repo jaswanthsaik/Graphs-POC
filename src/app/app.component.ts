@@ -18,7 +18,7 @@ import {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  @ViewChild('f') Graphform:NgForm;
+  @ViewChild('f') Graphform: NgForm;
   types = [
     { type: 'line', icon: 'assets/linechart.png', name:'Line' },
     { type: 'bar', icon: 'assets/barchart.png', name:'Vert. Bar'},
@@ -28,7 +28,7 @@ export class AppComponent {
     { type: 'bar', icon: 'assets/vert.stacked.chart.png', name:'Stacked Bar'},
     { type: 'bar', icon: 'assets/vert.group.barchart.png', name:'Column Bar'}
   ];
- 
+
   Xaxis = ["Accounts", "Subscriptions"];
   Yaxis = ["Total_Cost", "Total_Average_Cost"];
   SelectXaxis = "";
@@ -37,26 +37,30 @@ export class AppComponent {
   selectedtypeName = "";
   text = "";
   Subtext = "";
+  Size = "";
   mode = false;
- 
+
   // default chart options
   chartSeries: ApexAxisChartSeries|ApexNonAxisChartSeries = [];
   chartLabels: string[] = [];
- 
+  private startTime: number = 0;
+  private endTime: number = 0;
+  renderTime: number = 0;
+
   chartOptions: ApexChart = {
     type: 'line',
     height: 350
   };
- 
+
   xaxis: ApexXAxis = {
     categories: []
   };
- 
+
   titleSubtitle: ApexTitleSubtitle = {
     text: "",
     align: 'left'
   };
- 
+
   dataLabels: ApexDataLabels = {
     enabled: true
   };
@@ -67,177 +71,118 @@ export class AppComponent {
     show: true,
     position: 'right'
   };
- 
+
   stroke: ApexStroke = {
     curve: 'smooth'
   };
- 
+
   constructor() {}
 
   selectChartType(charttype: any) {
     this.selectedtype = charttype.type;
-    this.selectedtypeName = charttype.name
+    this.selectedtypeName = charttype.name;
     this.mode = false;
-    this.Graphform.reset()
+    this.Graphform.reset();
   }
- 
-  // customization of the graph from the inputs
+
+  generateBulkXAxisData(type: string): string[] {
+    const xAxisData: string[] = [];
+    for (let i = 1; i <= 50; i++) {
+      xAxisData.push(`${type}${i}`);
+    }
+    return xAxisData;
+  }
+
+  generateBulkYAxisData(): number[] {
+    const yAxisData: number[] = [];
+    for (let i = 1; i <= 50; i++) {
+      yAxisData.push(Math.floor(Math.random() * 100) + 50); // Generates random numbers between 50 and 149
+    }
+    return yAxisData;
+  }
+
   onSave() {
-    if (this.SelectXaxis == 'Accounts') {
-      if(this.selectedtypeName == 'Pie' || this.selectedtypeName == 'Donut'){
-        this.chartLabels = ["Account1", "Account2", "Account3", "Account4"];
-        if (this.SelectYaxis == "Total_Cost") {
-          this.chartSeries = [100, 250, 135, 90];
-        } else if (this.SelectYaxis == "Total_Average_Cost") {
-          this.chartSeries = [70, 100, 85, 50];
-        }
-      }else if(this.selectedtypeName=='Stacked Bar'||this.selectedtypeName=='Column Bar'){
+    if (this.SelectXaxis && this.SelectYaxis) {
+      const type = this.SelectXaxis === 'Accounts' ? 'Account' : 'Subscription';
+
+      if(this.selectedtypeName === 'Pie' || this.selectedtypeName === 'Donut') {
+        this.chartLabels = this.generateBulkXAxisData(type);
+        this.chartSeries = this.generateBulkYAxisData();
+      } else if (this.selectedtypeName === 'Stacked Bar' || this.selectedtypeName === 'Column Bar') {
         this.xaxis = {
-          categories: ["Jan", "Feb", "Mar", "Apr"]
+          categories: this.generateBulkXAxisData(type)
         };
-        if(this.SelectYaxis == "Total_Cost"){
-          this.chartSeries = [{
-            name: "Account1",
-            data: [20, 35, 30, 15]
+        const seriesData = this.generateBulkYAxisData();
+        this.chartSeries = [
+          {
+            name: `${type}1`,
+            data: seriesData.slice(0, 10)
           },
           {
-            name: "Account2",
-            data: [30, 50, 100, 70]
+            name: `${type}2`,
+            data: seriesData.slice(10, 20)
           },
           {
-            name: "Account3",
-            data: [10, 25, 35, 65]
+            name: `${type}3`,
+            data: seriesData.slice(20, 30)
           },
           {
-            name: "Account4",
-            data: [15, 25, 30, 20]
-          }];
-        }else if(this.SelectYaxis =="Total_Average_Cost"){
-          this.chartSeries = [{
-            name: "Account1",
-            data: [10, 25, 20, 15]
+            name: `${type}4`,
+            data: seriesData.slice(30, 40)
           },
           {
-            name: "Account2",
-            data: [40, 20, 30, 10]
-          },
-          {
-            name: "Account3",
-            data: [30, 25, 20, 10]
-          },
-          {
-            name: "Account4",
-            data: [10, 20, 15, 5]
-          }];
-        }
+            name: `${type}5`,
+            data: seriesData.slice(40, 50)
+          }
+        ];
       } else {
         this.xaxis = {
-          categories: ["Account1", "Account2", "Account3", "Account4"]
+          categories: this.generateBulkXAxisData(type)
         };
-        if (this.SelectYaxis == "Total_Cost") {
-          this.chartSeries = [{
-            name: "Total_Cost",
-            data: [100, 250, 135, 90]
-          }];
-        } else if (this.SelectYaxis == "Total_Average_Cost") {
-          this.chartSeries = [{
-            name: "Total_Average_Cost",
-            data: [70, 100, 85, 50]
-          }];
-        }
+        this.chartSeries = [{
+          name: this.SelectYaxis,
+          data: this.generateBulkYAxisData()
+        }];
       }
+      this.startTime = performance.now();
+      this.updateChart();
+      this.selectedtypeName = 'new';
+      this.mode = true;
+      this.Graphform.reset();
+      setTimeout(() => {
+        this.endTime = performance.now();  // End measuring time
+        this.renderTime = this.endTime - this.startTime;
+        console.log(`Chart rendered in ${this.renderTime} ms`);
+      }, 0); // Timeout to let the chart rendering complete
     }
-    if (this.SelectXaxis == 'Subscriptions') {
-      if(this.selectedtype == 'pie' || this.selectedtype == 'donut'){
-        this.chartLabels = ["Subscription1", "Subscription2", "Subscription3", "Subscription4"]
-        if (this.SelectYaxis == "Total_Cost") {
-          this.chartSeries = [100, 250, 135, 90];
-        } else if (this.SelectYaxis == "Total_Average_Cost") {
-          this.chartSeries = [70, 100, 85, 50];
-        }
-      }else if(this.selectedtypeName=='Stacked Bar'||this.selectedtypeName=='Column Bar'){
-        this.xaxis = {
-          categories: ["Jan", "Feb", "Mar", "Apr"]
-        };
-        if(this.SelectYaxis == "Total_Cost"){
-          this.chartSeries = [{
-            name: "Subscription1",
-            data: [20, 35, 30, 15]
-          },
-          {
-            name: "Subscription2",
-            data: [30, 50, 100, 70]
-          },
-          {
-            name: "Subscription3",
-            data: [10, 25, 35, 65]
-          },
-          {
-            name: "Subscription4",
-            data: [15, 25, 30, 20]
-          }];
-        }else if(this.SelectYaxis =="Total_Average_Cost"){
-          this.chartSeries = [{
-            name: "Subscription1",
-            data: [10, 25, 20, 15]
-          },
-          {
-            name: "Subscription2",
-            data: [40, 20, 30, 10]
-          },
-          {
-            name: "Subscription3",
-            data: [30, 25, 20, 10]
-          },
-          {
-            name: "Subscription4",
-            data: [10, 20, 15, 5]
-          }];
-        }
-      } 
-      else{
-        this.xaxis = {
-          categories: ["Subscription1", "Subscription2", "Subscription3", "Subscription4"]
-        };
-        if (this.SelectYaxis == "Total_Cost") {
-          this.chartSeries = [{
-            name: "Total_Cost",
-            data: [100, 250, 135, 90]
-          }];
-        } else if (this.SelectYaxis == "Total_Average_Cost") {
-          this.chartSeries = [{
-            name: "Total_Average_Cost",
-            data: [70, 100, 85, 50]
-          }];
-        }
-      }
-    }
-    this.updateChart();
-    this.selectedtypeName = 'new'
-    this.mode = true
-    this.Graphform.reset()
   }
- 
-  // function to update the chart options
+
   updateChart() {
-    if(this.selectedtypeName == "Stacked Bar"){
-      this.chartOptions ={
-        type:this.selectedtype as 'bar',
-        height:350,
-        stacked:true
-      }
-    }else{
+    if(this.selectedtypeName === "Stacked Bar") {
+      this.chartOptions = {
+        type: this.selectedtype as 'bar',
+        height: 350,
+        stacked: true
+      };
+    } else {
       this.chartOptions = {
         type: this.selectedtype as 'line' | 'bar' | 'pie' | 'donut',
         height: 350
       };
+    }
+    if(this.Size == 'small'){
+      this.chartOptions.width = 300
+    }else if(this.Size == 'medium'){
+      this.chartOptions.width = 600
+    }else if(this.Size == 'large'){
+      this.chartOptions.width = 900
     }
     this.titleSubtitle = {
       text: this.text,
       align: 'left'
     };
 
-    if(this.selectedtypeName=='Hor. Bar'){
+    if(this.selectedtypeName === 'Hor. Bar') {
       this.plotOptions = {
         bar: {
           horizontal: true
@@ -248,10 +193,10 @@ export class AppComponent {
     this.stroke = {
       curve: 'stepline'
     };
+    
   }
- 
-  // check if chart should be displayed
+
   shouldDisplayChart() {
-    return this.mode && this.selectedtype !== ''&& this.chartSeries.length > 0;
+    return this.mode && this.selectedtype !== '' && this.chartSeries.length > 0;
   }
 }
